@@ -10,6 +10,10 @@ jobs:
     executor: my-ubuntu-exec
     steps:
       - checkout
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y npm
+      - run: npm install
+      - run: npm run build
       - run: npm ci
       - run: npm run lint
   job-2:
