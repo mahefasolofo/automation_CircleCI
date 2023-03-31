@@ -1,13 +1,13 @@
 version: 2.1
 
 jobs:
-  verification:
+  job-1:
     executor: my-ubuntu-exec
     steps:
       - checkout
       - run: npm ci
       - run: npm run lint
-  test:
+  job-2:
     executor: my-ubuntu-exec
     steps:
       - checkout
@@ -15,9 +15,9 @@ jobs:
       - run: npm run cy:run
 
 workflows:
-  my_workflow:
+  test:
     jobs:
-      - verification
-      - cypress-test:
+      - job-1
+      - job-2:
           requires:
-            - verification
+            - job-1
