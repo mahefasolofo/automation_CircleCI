@@ -4,19 +4,15 @@ jobs:
   verification:
     executor: my-ubuntu-exec
     steps:
-    - checkout
-    - name: Install dependencies
-      run: npm ci
-    - name: lint
-      run: npm run lint
+      - checkout
+      - run: npm ci
+      - run: npm run lint
   test:
     executor: my-ubuntu-exec
     steps:
-    - checkout
-    - name: Install dependencies
-      run: npm ci
-    - name: Run tests
-      run: npm run cy:run
+      - checkout
+      - run: npm ci
+      - run: npm run cy:run
 
 workflows:
   my_workflow:
