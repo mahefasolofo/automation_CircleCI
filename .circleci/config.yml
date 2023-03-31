@@ -1,5 +1,10 @@
 version: 2.1
 
+executors:
+  my-ubuntu-exec:
+    docker:
+      - image: ubuntu:latest
+
 jobs:
   job-1:
     executor: my-ubuntu-exec
