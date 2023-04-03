@@ -22,7 +22,7 @@ workflows:
   verification_test:
     verification:
       jobs:
-      - verification
+      - verification:
       - test:
           requires:
-            - verification
+            - verification:
