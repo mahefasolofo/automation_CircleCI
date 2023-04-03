@@ -1,4 +1,5 @@
 version: 2.1
+
 jobs:
   verification:
     docker:
@@ -20,9 +21,8 @@ jobs:
           command: npx cypress run
 workflows:
   verification_test:
-    verification:
-      jobs:
-      - verification:
+    jobs:
+      - verification
       - test:
           requires:
-            - verification:
+            - verification
