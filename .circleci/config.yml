@@ -1,32 +1,8 @@
 version: 2.1
-
-
-jobs:
-  job-1:
-    docker:
-      - image: ubuntu:latest
-    steps:
-      - checkout
-      - run: apt-get update
-      - run: apt-get install -y npm
-      - run: npm init
-      - run: npm install
-      - run: npm run build
-      - run: npm ci
-      - run: npm run lint
-  job-2:
-    docker:
-      - image: ubuntu:latest
-    steps:
-      - checkout
-      - run: npm ci
-      - run: npm run cy:run
-
+orbs:
+  cypress: cypress-io/cypress@3
 workflows:
-  version: 2
-  test:
+  build:
     jobs:
-      - job-1
-      - job-2:
-          requires:
-            - job-1
+      - cypress/run # "run" job comes from "cypress" orb
+          start-command: 'npm run start'
