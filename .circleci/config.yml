@@ -4,5 +4,15 @@ orbs:
 workflows:
   build:
     jobs:
-      - cypress/run # "run" job comes from "cypress" orb
-          start-command: 'npm run start'
+      job-1:
+    docker:
+      - image: ubuntu:latest
+    steps:
+      - checkout
+      - run: apt-get update
+      - run: apt-get install -y npm
+      - run: npm init
+      - run: npm install
+      - run: npm run build
+      - run: npm ci
+      - run: npm run lint
