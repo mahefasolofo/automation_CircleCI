@@ -1,6 +1,15 @@
 version: 2.1
 jobs:
-  build:
+  verification:
+    docker:
+      - image: cypress/base
+    steps:
+      - checkout
+      - run: npm install
+      - run:
+          name: verification lint
+          command: npm run lint
+  test:
     docker:
       - image: cypress/base
     steps:
@@ -9,3 +18,11 @@ jobs:
       - run:
           name: Run Cypress tests
           command: npx cypress run
+workflows:
+  verification_test:
+    verification:
+      jobs:
+      - verification
+      - test:
+          requires:
+            - verification
