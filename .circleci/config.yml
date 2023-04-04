@@ -52,4 +52,4 @@ workflows:
       - post-steps:
           requires:
             - test
-          when: always
+          if: always()
