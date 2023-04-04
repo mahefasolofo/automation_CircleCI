@@ -23,11 +23,12 @@ jobs:
     docker:
       - image: cypress/base
     steps:
-      - checkout
+      - checkout        
       - run: npm install
       - run:
           name: Create merged-report Directory
           command: mkdir cypress/merged-report/
+          when: always
       - run:
           name: Merge mochawesome jsons in one file
           when: always
@@ -39,10 +40,11 @@ jobs:
       - store_artifacts:
           name: Uploading mochawesome-merged-report.json
           path: cypress/merged-report
+          when: always
       - store_artifacts:
           name: Uploading mochawesome-html-report
-          path: cypress/mochawesome-html-report
-    when: always
+          path: cypress/mochawesome-html-report    
+          when: always
 workflows:
   verification_test:
     jobs:
