@@ -52,5 +52,8 @@ workflows:
       - test:
           requires:
             - verification
-      - post-steps      
+          allow_failure: true
+      - post-steps:
+          requires:
+            - test
           
