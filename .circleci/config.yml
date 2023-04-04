@@ -52,7 +52,5 @@ workflows:
       - test:
           requires:
             - verification
-      - post-steps:
-          requires:
-            - test
+      - post-steps      
           
