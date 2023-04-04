@@ -42,6 +42,7 @@ jobs:
       - store_artifacts:
           name: Uploading mochawesome-html-report
           path: cypress/mochawesome-html-report
+    when: always
 workflows:
   verification_test:
     jobs:
@@ -52,4 +53,4 @@ workflows:
       - post-steps:
           requires:
             - test
-          if: always()
+          
