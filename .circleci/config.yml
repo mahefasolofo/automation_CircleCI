@@ -21,7 +21,7 @@ jobs:
           command: npx cypress run
   build_artifact:
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:14.17.3-browsers
     steps:
       - checkout
       - run: npm install
@@ -29,7 +29,7 @@ jobs:
           name: Concatenate JSON reports
           command: |
             npm install -g mochawesome-merge
-            mochawesome-merge /root/project/cypress/results/*.json > merged-report.json
+            mochawesome-merge root/project/cypress/results/*.json > merged-report.json
         # Génération du rapport HTML
       - run:
           name: Generate HTML report
