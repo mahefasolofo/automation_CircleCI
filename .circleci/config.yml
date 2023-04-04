@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  verification:
+  verification_test_report:
     docker:
       - image: cypress/base
     steps:
@@ -10,21 +10,9 @@ jobs:
       - run:
           name: verification lint
           command: npm run lint
-  test:
-    docker:
-      - image: cypress/base
-    steps:
-      - checkout
-      - run: npm install
       - run:
           name: Run Cypress tests
           command: npx cypress run
-  post-steps:
-    docker:
-      - image: cypress/base
-    steps:
-      - checkout        
-      - run: npm install
       - run:
           name: Create merged-report Directory
           command: mkdir cypress/merged-report/
@@ -45,15 +33,9 @@ jobs:
           name: Uploading mochawesome-html-report
           path: cypress/mochawesome-html-report    
           when: always
+ 
+      
 workflows:
   verification_test:
     jobs:
-      - verification
-      - test:
-          requires:
-            - verification
-          allow_failure: true
-      - post-steps:
-          requires:
-            - test
-          
+      - verification_test_report
