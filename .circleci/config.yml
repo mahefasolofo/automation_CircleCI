@@ -39,6 +39,8 @@ jobs:
 
   # Configuration des artifacts
   artifacts:
+    docker:
+      - image: circleci/node:14.17.3-browsers
     # Définition des fichiers à archiver
     paths:
       - merged-report.json
