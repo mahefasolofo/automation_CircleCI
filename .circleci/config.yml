@@ -27,10 +27,10 @@ jobs:
       - checkout
       - run: npm install
       - run:
-            name: Concatenate JSON reports
-            command: |
-              npm install -g mochawesome-merge
-              mochawesome-merge path/to/json/*.json > merged-report.json
+          name: Concatenate JSON reports
+          command: |
+            npm install -g mochawesome-merge
+            mochawesome-merge path/to/json/*.json > merged-report.json
 
         # Génération du rapport HTML
         - run:
