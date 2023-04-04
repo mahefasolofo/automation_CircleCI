@@ -19,32 +19,29 @@ jobs:
       - run:
           name: Run Cypress tests
           command: npx cypress run
-  build_artifact:
+  post-steps:
     docker:
-      - image: circleci/node:14.17.3-browsers
-    steps:
-      - checkout
-      - run: npm install
-      - run:
-          name: Concatenate JSON reports
-          command: |
-            npm install -g mochawesome-merge
-            mochawesome-merge root/project/cypress/results/*.json > merged-report.json
-        # Génération du rapport HTML
-      - run:
-          name: Generate HTML report
-          command: |
-            npm install -g mochawesome-report-generator
-            marge merged-report.json   
-
-  # Configuration des artifacts
-  artifacts:
-    docker:
-      - image: circleci/node:14.17.3-browsers
-    # Définition des fichiers à archiver
-    paths:
-      - merged-report.json
-      - mochawesome.html
+        - image: cypress/base
+      steps:
+        - checkout
+        - run: npm install
+        - run:
+            name: Create merged-report Directory
+            command: mkdir cypress/merged-report/
+        - run:
+            name: Merge mochawesome jsons in one file
+            when: always
+            command: npx mochawesome-merge --reportDir cypress/results > cypress/merged-report/merged-report.json
+        - run:
+            name: Generate mochawesome html report
+            when: always
+            command: npx marge cypress/merged-report/merged-report.json -o cypress/mochawesome-html-report
+        - store_artifacts:
+            name: Uploading mochawesome-merged-report.json
+            path: cypress/merged-report
+        - store_artifacts:
+            name: Uploading mochawesome-html-report
+            path: cypress/mochawesome-html-report
 workflows:
   verification_test:
     jobs:
@@ -52,9 +49,6 @@ workflows:
       - test:
           requires:
             - verification
-      - build_artifact:
+      - post-steps:
           requires:
             - test
-      - artifacts:
-          requires:
-            - build_artifact
