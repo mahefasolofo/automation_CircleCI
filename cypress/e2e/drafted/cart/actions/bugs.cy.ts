@@ -43,7 +43,7 @@ describe('bugs on Cart page', () => {
         (zipCode = item[randomUserNumber].zipCode)
     })
     cy.visit('/')
-    cy.url().should('eq', '//')
+    cy.url().should('eq', 'https://automationexercise.com/')
     cy.get(selectors.homeIdentifier).should('be.visible')
   })
   //WEL-T911

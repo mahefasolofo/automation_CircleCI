@@ -19,6 +19,32 @@ jobs:
       - run:
           name: Run Cypress tests
           command: npx cypress run
+  build_artifact:
+    docker:
+      - image: circleci/node:10
+
+    steps:
+      - checkout
+      - run: npm install
+      - run:
+            name: Concatenate JSON reports
+            command: |
+              npm install -g mochawesome-merge
+              mochawesome-merge path/to/json/*.json > merged-report.json
+
+        # Génération du rapport HTML
+        - run:
+            name: Generate HTML report
+            command: |
+              npm install -g mochawesome-report-generator
+              marge merged-report.json   
+
+  # Configuration des artifacts
+  artifacts:
+    # Définition des fichiers à archiver
+    paths:
+      - merged-report.json
+      - mochawesome.html
 workflows:
   verification_test:
     jobs:
@@ -26,3 +52,9 @@ workflows:
       - test:
           requires:
             - verification
+      - build_artifact:
+          requires:
+            - test
+      - artifacts:
+          requires:
+            - build_artifact
